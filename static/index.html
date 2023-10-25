@@ -14,6 +14,7 @@
         body {
             font-family: sans-serif;
             font-size: 18px;
+            line-height: 1.25;
             margin: 0 auto;
             padding: 40px;
             max-width: 1600px;
@@ -33,7 +34,7 @@
         }
 
         td {
-            padding: 5px;
+            padding: 8px;
         }
 
         fieldset {
@@ -53,18 +54,42 @@
             padding: 5px;
             font-family: inherit;
             font-size: inherit;
+            max-width: 400px;
+            border-radius: 3px;
+            border: 1px solid #e6e6e6;
         }
 
         input[type~="submit"] {
             background: #d4e7ff;
             border-width: 0;
-            border-radius: 3px;
-            padding: 10px;
+            padding: 10px 15px;
             cursor: pointer;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            margin: 0 0 40px 0;
+            font-size: 30px;
+        }
+
+        h2 {
+            margin: 0 0 20px 0;
+            font-size: 24px;
+        }
+
+        footer {
+            font-size: 12px;
+            text-align: center;
+            margin: 40px 0;
+            color: #7e7e7e;
         }
 
         .report {
             overflow-x: auto;
+        }
+
+        .light {
+            color: #7e7e7e;
         }
     </style>
 </head>
@@ -72,18 +97,18 @@
     <h1>Pirsch Custom Reporting Tool</h1>
     <form method="post">
         <fieldset>
-            <label>Start date (UTC)</label>
+            <label>Start Date (UTC)</label>
             <input type="date" name="from" value="{{.From}}" required />
         </fieldset>
         <fieldset>
-            <label>End date (UTC)</label>
+            <label>End Date (UTC)</label>
             <input type="date" name="to" value="{{.To}}" required />
         </fieldset>
         <fieldset>
-            <label>Path pattern (example: /path/*)</label>
+            <label>Path Pattern (Example: /path/*)</label>
             <input type="text" name="pattern" value="{{.Pattern}}" />
         </fieldset>
-        <input type="submit" value="Get report" />
+        <input type="submit" value="Get Report" />
     </form>
     <h2>Page Report</h2>
     <div class="report">
@@ -91,11 +116,11 @@
             <thead>
                 <tr>
                     <td>Path</td>
-                    <td>Unique visitors</td>
-                    <td>Page views</td>
+                    <td>Unique Visitors</td>
+                    <td>Page Views</td>
                     <td>Sessions</td>
                     <td>Bounces</td>
-                    <td>Bounce rate</td>
+                    <td>Bounce Rate</td>
                 </tr>
             </thead>
             <tbody>
@@ -103,8 +128,14 @@
                     {{range $page := .Pages}}
                         <tr>
                             <td>{{$page.Path}}</td>
-                            <td>{{$page.Visitors}} ({{$page.RelativeVisitors}}%)</td>
-                            <td>{{$page.Views}} ({{$page.RelativeViews}}%)</td>
+                            <td>
+                                {{$page.Visitors}}
+                                <span class="light">({{$page.RelativeVisitors}}%)</span>
+                            </td>
+                            <td>
+                                {{$page.Views}}
+                                <span class="light">({{$page.RelativeViews}}%)</span>
+                            </td>
                             <td>{{$page.Sessions}}</td>
                             <td>{{$page.Bounces}}</td>
                             <td>{{$page.BounceRate}}%</td>
@@ -117,6 +148,9 @@
                 {{end}}
             </tbody>
         </table>
+        <footer>
+            &copy; 2023 Emvi Software GmbH | <a href="https://pirsch.io" target="_blank">pirsch.io</a>
+        </footer>
     </div>
 </body>
 </html>
