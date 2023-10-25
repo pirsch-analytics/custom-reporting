@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="copyright" content="Emvi Software GmbH" />
+    <meta name="author" content="Emvi Software GmbH" />
+    <meta name="title" content="Pirsch Custom Reporting Tool" />
+    <meta name="description" content="A custom reporting tool for Pirsch Analytics." />
+    <title>Pirsch Custom Reporting Tool</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            font-size: 18px;
+            margin: 0 auto;
+            padding: 40px;
+            max-width: 1600px;
+        }
+
+        table {
+            width: 100%;
+            min-width: 1000px;
+        }
+
+        thead td {
+            background: #d4e7ff;
+        }
+
+        tbody td {
+            background: #e6e6e6;
+        }
+
+        td {
+            padding: 5px;
+        }
+
+        fieldset {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 0 0 20px 0;
+            border-width: 0;
+            padding: 0;
+        }
+
+        label {
+            font-size: 12px;
+        }
+
+        input {
+            padding: 5px;
+            font-family: inherit;
+            font-size: inherit;
+        }
+
+        input[type~="submit"] {
+            background: #d4e7ff;
+            border-width: 0;
+            border-radius: 3px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .report {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pirsch Custom Reporting Tool</h1>
+    <form method="post">
+        <fieldset>
+            <label>Start date (UTC)</label>
+            <input type="date" name="from" value="{{.From}}" required />
+        </fieldset>
+        <fieldset>
+            <label>End date (UTC)</label>
+            <input type="date" name="to" value="{{.To}}" required />
+        </fieldset>
+        <fieldset>
+            <label>Path pattern (example: /path/*)</label>
+            <input type="text" name="pattern" value="{{.Pattern}}" />
+        </fieldset>
+        <input type="submit" value="Get report" />
+    </form>
+    <h2>Page Report</h2>
+    <div class="report">
+        <table>
+            <thead>
+                <tr>
+                    <td>Path</td>
+                    <td>Unique visitors</td>
+                    <td>Page views</td>
+                    <td>Sessions</td>
+                    <td>Bounces</td>
+                    <td>Bounce rate</td>
+                </tr>
+            </thead>
+            <tbody>
+                {{if len .Pages}}
+                    {{range $page := .Pages}}
+                        <tr>
+                            <td>{{$page.Path}}</td>
+                            <td>{{$page.Visitors}} ({{$page.RelativeVisitors}}%)</td>
+                            <td>{{$page.Views}} ({{$page.RelativeViews}}%)</td>
+                            <td>{{$page.Sessions}}</td>
+                            <td>{{$page.Bounces}}</td>
+                            <td>{{$page.BounceRate}}%</td>
+                        </tr>
+                    {{end}}
+                {{else}}
+                    <tr>
+                        <td colspan="6">No data found.</td>
+                    </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
