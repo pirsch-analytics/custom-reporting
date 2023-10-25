@@ -7,6 +7,7 @@ import (
 	"log"
 	"math"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 )
@@ -20,8 +21,8 @@ func main() {
 		log.Fatalln("Error loading templates: ", err)
 	}
 
-	clientID := "H6ggBMBLmajVSqk4Ec05syoy7ERyN9BG"
-	clientSecret := "jXOLmCQB0EEnM9CJFXNYE1pZBvjotTd6LUbThzllD9KYUEHMNnhsEv8TPmQpKpVF"
+	clientID := os.Getenv("CLIENT_ID")
+	clientSecret := os.Getenv("CLIENT_SECRET")
 	client = pirsch.NewClient(clientID, clientSecret, nil)
 	domain, err := client.Domain()
 
