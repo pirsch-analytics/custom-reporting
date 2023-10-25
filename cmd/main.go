@@ -8,6 +8,7 @@ import (
 	"math"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 )
@@ -15,7 +16,13 @@ import (
 var client *pirsch.Client
 
 func main() {
-	static, err := template.ParseGlob("static/**.html")
+	basePath := ""
+
+	if os.Getenv("BASE_PATH") != "" {
+		basePath = os.Getenv("BASE_PATH")
+	}
+
+	static, err := template.ParseGlob(filepath.Join(basePath, "static/**.html"))
 
 	if err != nil {
 		log.Fatalln("Error loading templates: ", err)

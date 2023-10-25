@@ -9,8 +9,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags "-s -w" /go
 	mkdir /app && \
 	mv /go/src/custom-report/main /app/server
 
-RUN mkdir -p /app/static && \
-	mv /go/src/custom-report/static /app/static
+RUN mv /go/src/custom-report/static /app/static
 
 FROM alpine
 RUN apk update && \
