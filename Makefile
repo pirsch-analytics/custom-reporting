@@ -1,5 +1,8 @@
-.PHONY: release
+.PHONY: web cli
 
-release:
+web:
 	docker build -t ghcr.io/pirsch-analytics/custom-report:$(VERSION) -f build/Dockerfile .
 	docker push ghcr.io/pirsch-analytics/custom-report:$(VERSION)
+
+cli:
+	go build -ldflags "-s -w" cli/cmd/main.go
