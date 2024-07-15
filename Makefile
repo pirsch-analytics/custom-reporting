@@ -5,7 +5,7 @@ web:
 	docker push ghcr.io/pirsch-analytics/custom-report:$(VERSION)
 
 cli:
-	go build -ldflags "-s -w" cli/cmd/main.go
+	go build -ldflags "-s -w" cli/main.go
 
 deps:
 	go get -u -t ./...
