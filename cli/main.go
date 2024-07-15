@@ -27,7 +27,13 @@ type config struct {
 }
 
 func main() {
-	file, err := os.ReadFile("config.json")
+	path := "./config.json"
+
+	if len(os.Args) > 1 {
+		path = os.Args[1]
+	}
+
+	file, err := os.ReadFile(path)
 
 	if err != nil {
 		log.Println("config.json not found: ", err)
@@ -75,6 +81,7 @@ func main() {
 			EventMeta: map[string]string{
 				cfg.EventMetaKey: column.Campaign,
 			},
+			OS: []string{"null"},
 		})
 
 		if err != nil {
@@ -90,6 +97,7 @@ func main() {
 			EventMeta: map[string]string{
 				cfg.EventMetaKey: column.Campaign,
 			},
+			OS: []string{"null"},
 		})
 
 		if err != nil {
