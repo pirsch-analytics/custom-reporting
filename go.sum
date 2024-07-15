@@ -2,3 +2,5 @@ github.com/emvi/null v1.3.1 h1:EQxrthMJnzpozGgKrcCepJmwrzA+UCk7ctBWOZLTW0Y=
 github.com/emvi/null v1.3.1/go.mod h1:tEZhBSLFCucrJdwRentxoOLVRpTCy/3aIfiNKE2uuYU=
 github.com/pirsch-analytics/pirsch-go-sdk/v2 v2.1.0 h1:fB1OjIZHqXb6sZpm8UcJpBDn/587/ZM0oxy+I91tt00=
 github.com/pirsch-analytics/pirsch-go-sdk/v2 v2.1.0/go.mod h1:dJWw0k1wgXN+khnr+JuibY6dPg4plV894/wcjjX5+Bc=
+github.com/pirsch-analytics/pirsch-go-sdk/v2 v2.3.0 h1:uZRvFSq3ZL8T0o6HoI0lr2+pl1RpORX7w7Xn+nuUSws=
+github.com/pirsch-analytics/pirsch-go-sdk/v2 v2.3.0/go.mod h1:rsaEOobygzywGmIt+fJ4rkL5bJ20ElcBQOXpgOENbcI=

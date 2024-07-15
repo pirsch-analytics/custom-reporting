@@ -1,4 +1,4 @@
-.PHONY: web cli
+.PHONY: web cli deps
 
 web:
 	docker build -t ghcr.io/pirsch-analytics/custom-report:$(VERSION) -f build/Dockerfile .
@@ -6,3 +6,7 @@ web:
 
 cli:
 	go build -ldflags "-s -w" cli/cmd/main.go
+
+deps:
+	go get -u -t ./...
+	go mod vendor

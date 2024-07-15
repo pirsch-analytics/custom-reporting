@@ -1,0 +1,19 @@
+{
+    "client_id": "",
+    "client_secret": "",
+    "start_date": "2024-07-01",
+    "end_date": "2024-07-15",
+    "event_meta_key": "campaign",
+    "event_printed": "Advert printed",
+    "event_clicked": "Advert clicked",
+    "columns": [
+        {
+            "campaign": "",
+            "device": "Desktop"
+        },
+        {
+            "campaign": "",
+            "device": "Mobile"
+        }
+    ]
+}

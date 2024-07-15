@@ -75,7 +75,7 @@ func main() {
 				DomainID: domain.ID,
 				From:     from,
 				To:       to,
-				Pattern:  filterPattern,
+				Pattern:  []string{filterPattern},
 			})
 
 			if err != nil {
