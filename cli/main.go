@@ -87,7 +87,7 @@ func main() {
 			continue
 		}
 
-		buffer.WriteString(fmt.Sprintf("%s,%s,%s,%s,%d,%d\n", cfg.Filter.From.Format(time.DateOnly), cfg.Filter.To.Format(time.DateOnly), column.Campaign, column.Device, statsPrinted[0].Visitors, statsClicked[0].Visitors))
+		buffer.WriteString(fmt.Sprintf("%s,%s,%s,%s,%d,%d\n", cfg.Filter.From.Format(time.DateOnly), cfg.Filter.To.Format(time.DateOnly), column.Campaign, column.Device, statsPrinted[0].Count, statsClicked[0].Count))
 	}
 
 	if err := os.WriteFile("report.csv", buffer.Bytes(), 0644); err != nil {
