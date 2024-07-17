@@ -54,9 +54,25 @@ func main() {
 		return
 	}
 
+	log.Println("Listing available metadata keys:")
+	cfg.Filter.DomainID = domain.ID
+	cfg.Filter.Event = []string{cfg.EventPrinted}
+	cfg.Filter.EventMetaKey = []string{cfg.EventMetaKey}
+	metadata, err := client.EventMetadata(&cfg.Filter)
+
+	if err != nil {
+		log.Println("Error loading event metadata: ", err)
+		return
+	}
+
+	for _, m := range metadata {
+		log.Println(m.MetaValue)
+	}
+
+	log.Println("--------------------------------------")
+	log.Println("Creating report...")
 	var buffer bytes.Buffer
 	buffer.WriteString("PeriodStart,PeriodEnd,CampaignName,Device,AdvertPrinted,AdvertClicked\n")
-	cfg.Filter.DomainID = domain.ID
 
 	for _, column := range cfg.Columns {
 		cfg.Filter.Event = []string{cfg.EventPrinted}
@@ -71,10 +87,6 @@ func main() {
 			return
 		}
 
-		if len(statsPrinted) == 0 {
-			continue
-		}
-
 		cfg.Filter.Event = []string{cfg.EventClicked}
 		statsClicked, err := client.EventMetadata(&cfg.Filter)
 
@@ -83,14 +95,22 @@ func main() {
 			return
 		}
 
-		if len(statsClicked) == 0 {
-			continue
+		var printed, clicked int
+
+		if len(statsPrinted) > 0 {
+			printed = statsPrinted[0].Count
 		}
 
-		buffer.WriteString(fmt.Sprintf("%s,%s,%s,%s,%d,%d\n", cfg.Filter.From.Format(time.DateOnly), cfg.Filter.To.Format(time.DateOnly), column.Campaign, column.Device, statsPrinted[0].Count, statsClicked[0].Count))
+		if len(statsClicked) > 0 {
+			clicked = statsClicked[0].Count
+		}
+
+		buffer.WriteString(fmt.Sprintf("%s,%s,%s,%s,%d,%d\n", cfg.Filter.From.Format(time.DateOnly), cfg.Filter.To.Format(time.DateOnly), column.Campaign, column.Device, printed, clicked))
 	}
 
 	if err := os.WriteFile("report.csv", buffer.Bytes(), 0644); err != nil {
 		log.Println("Error writing report.csv: ", err)
 	}
+
+	log.Println("Done!")
 }
