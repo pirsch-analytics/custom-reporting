@@ -2,15 +2,17 @@ package main
 
 import (
 	"fmt"
-	pirsch "github.com/pirsch-analytics/pirsch-go-sdk/v2/pkg"
 	"html/template"
 	"log"
+	"log/slog"
 	"math"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
 	"time"
+
+	pirsch "github.com/pirsch-analytics/pirsch-go-sdk/v2/pkg"
 )
 
 var client *pirsch.Client
@@ -25,7 +27,8 @@ func main() {
 	static, err := template.ParseGlob(filepath.Join(basePath, "static/**.html"))
 
 	if err != nil {
-		log.Fatalln("Error loading templates: ", err)
+		slog.Error("Error loading templates", "err", err)
+		return
 	}
 
 	clientID := os.Getenv("CLIENT_ID")
@@ -34,7 +37,8 @@ func main() {
 	domain, err := client.Domain()
 
 	if err != nil {
-		log.Fatalln("Error loading domain: ", err)
+		slog.Error("Error loading domain", "err", err)
+		return
 	}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -107,14 +111,16 @@ func main() {
 		}
 	})
 
+	slog.Info("Starting server on localhost:8080")
+
 	if err := http.ListenAndServe(":8080", nil); err != nil {
-		log.Fatalln("Error starting server: ", err)
+		slog.Error("Error starting server", "err", err)
 	}
 }
 
 func errorResponse(w http.ResponseWriter, err error) {
 	if _, e := w.Write([]byte(fmt.Sprintf("An error occurred: %s", err))); e != nil {
-		log.Println("Error writing response: ", e)
+		slog.Error("Error writing response", "err", e)
 	}
 }
 
